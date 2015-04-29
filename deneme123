@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="sitil.css" rel="stylesheet" type="text/css" />
+<title>Ajax ile veri tabanına veri ekleme örnek uygulaması</title>
+
+<script type="text/javascript">
+
+var istek =false;
+
+if (window.XMLHttpRequest)
+{
+	istek = new XMLHttpRequest();
+}
+else if (window.ActiveXObject)
+{
+	istek = new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+function kaydet()
+{
+	album_adi = document.getElementById("album_adi").value;
+	sanatci_adi = document.getElementById("sanatci_adi").value;
+	album_yili = document.getElementById("album_yili").value;
+	
+	istek.open("GET", "kaydet.php?album_adi="+album_adi+"&sanatci_adi="+sanatci_adi+"&album_yili="+album_yili+"&number="+number, true);
+	istek.onreadystatechange = verileriAl;
+	istek.send(null);
+}
+
+function verileriAl() {
+	if (istek.readyState == 4 && istek.status == 200)
+	{
+		var cevap = istek.responseText;
+		document.getElementById("sonuc").innerHTML = cevap;
+		document.getElementById("sonuc").style.backgroundColor="#F2E6B6";
+	}
+}
+
+
+</script>
+</head>
+
+<body><div align="center">
+<div id="cerceve">
+<div align="left">
+<h1>Ajax ile veritabanına veri ekleme</h1>
+<div id="sonuc"></div>
+<form>
+    <span>Albüm Adı:</span> <input type="text" id="album_adi" class="girdi" /><br />
+    <span>Sanatçı Adı:</span> <input type="text" id="sanatci_adi" class="girdi" /><br />
+    <span>Albüm Yılı:</span> <input type="text" id="album_yili" class="girdi" /><br />
+    <input type="button" onClick="kaydet()" value="KAYDET!" />
+</form>
+
+</div>
+</div>
+</div></body>
+</html>
